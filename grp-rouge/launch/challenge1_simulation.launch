@@ -1,23 +1,7 @@
 <launch>
 
-<include file="$(find tbot_gazebo)/launch/start_world.launch">
-<arg name="world_file" value="$(find larm)/models/challenge-1.world" />
-	</include>
-	
+	<include file="$(find larm)/launch/challenge-1.launch" />
 
-
-<include file="$(find tbot_gazebo)/launch/spawn_tbot.launch">
-	    <arg name="x" value="-3.32" />
-	    <arg name="y" value="-2.95" />
-	    <arg name="yaw" value="2.86" />
-    </include>
-    
-    <node pkg="grp-rouge" name="challenge1" type="challenge1.py"/>
-<node pkg="rviz" name="rviz" type="rviz" args="$(find grp-rouge)/rvizconfiglaser.rviz"/>
-    
-<node pkg="urg_node" name="urg_node" type="urg_node">
-    <param name="angle_min" value="-1.35"/>
-    <param name="angle_max" value="1.35"/>
- </node>
-
+	<node pkg="grp-rouge" name="challenge1" type="challenge1.py"/>
+	<node pkg="rviz" name="rviz" type="rviz" args="$(find grp-rouge)/	 rvizconfig_laser.rviz"/>
 </launch>
