@@ -1,7 +1,4 @@
 <launch>
-
 	<include file="$(find larm)/launch/challenge-1.launch" />
-
 	<node pkg="grp-rouge" name="challenge1" type="challenge1.py"/>
-	<node pkg="rviz" name="rviz" type="rviz" args="$(find grp-rouge)/	 rvizconfig_laser.rviz"/>
 </launch>
