@@ -1,77 +1,80 @@
-#!/usr/bin/python3
-import math, rospy, math
-from geometry_msgs.msg import Twist
+#!/usr/bin/env python3
+import rospy
+import math
 from sensor_msgs.msg import LaserScan
-import time
+from geometry_msgs.msg import Twist
 
-commandPublisher = rospy.Publisher(
-    '/cmd_vel_mux/input/navi',
-    Twist, queue_size=10
-)
+direction = 0
+timer = 0
 
-obstacles= []
+# move(data) is the function that will publish the directions to move the robot
+# depending on the 'direction' variable modified in the other functions 
+def move(data):
+    global direction
+    global timer
+    move_cmd = Twist()
+    if direction == 2 :
+        move_cmd.linear.x = 0.0
+        move_cmd.angular.z = -0.6
+    elif direction == 1 :
+        move_cmd.linear.x = 0.0
+        move_cmd.angular.z = 0.6
+    else :
+        move_cmd.linear.x = 0.5
+        move_cmd.angular.z = 0.0
+    pub.publish(move_cmd)
+    if timer != 0 :
+        timer -= 1
 
-# Publish velocity commandes:
-def move_front(data):
-    cmd= Twist()
-    cmd.linear.x= 2
-    commandPublisher.publish(cmd)
+# choix(liste_obstacles) is called when a collision is detected and will 
+# analyse the environnement to choose in with direction it is better to
+# turn to avoid the collision
 
+# detect_collision(liste_obstacles) will choiceide if there is a collision danger 
+# with one of the liste_obstacles detected and will then execute choix
 
-def move_command_angular(data):
-    cmd= Twist()
-    cmd.angular.z= 1
-    #cmd.linear.x= -0.2
-    commandPublisher.publish(cmd) 
+# callback(data) uses the data provided by the topic from the 
+# laser to create a list of points that are liste_obstacles seen by the laser
 
-# Publish velocity commandes:
-#Va recup les obstacle dans une liste global qu'on v apouvoir mettre à jour
-def interpret_scan(data):
-    global obstacles
-    rospy.loginfo('I get scans')
-    obstacles= []
-    angle= data.angle_min #angle minimum 
-    
-    #Comment est cosntruit obstacle ?
-    for aDistance in data.ranges : # on parcourt le parametre range de data cad le tableau immense de point
-        
-        if 0.1 < aDistance and aDistance < 5.0 : # Si la distance est trop petite
+def callback(data):
+    global direction
+    global timer
+
+    liste_obstacles = []
+    min= data.angle_min
+    for dist in data.ranges :
+        if 0.2 < dist and dist < 0.6 :
             aPoint= [ 
-                math.cos(angle) * aDistance, #on obtient x
-                math.sin( angle ) * aDistance #on obtient y
+                math.cos(min) * dist, 
+                math.sin(min) * dist
             ]
-            obstacles.append( aPoint ) #on ajoute
-        angle+= data.angle_increment #on passe à langle suivant
-    rospy.loginfo( str(
-        [ [ round(p[0], 2), round(p[1], 2) ] for p in  obstacles[0:10] ] 
-    ) + " ..." )
+            liste_obstacles.append(aPoint)
+        min+= data.angle_increment
+    
 
-def faire_evoluer_robot(data):
-    t=0
-    for a in obstacles :
-        if -taille_x < a[0] < taille_x :		#S'il y a quelquechose dans l'enveloppe de notre turtlebot
-            if -taille_y < a[1] < taille_y  and t==0:
-                t=1
-                
-    if t == 0:
-        move_front(data)
-    else:
-        move_command_angular(data)
-        
+    if timer == 0 : 
+
+        direction = 0
+        for obstacle in liste_obstacles : 
+            if 0.2 < obstacle[0] and obstacle[0] < 0.6 and abs(obstacle[1]>0.3):
+                    choice = 0
+                    for obstacle in liste_obstacles :
+                        if 0.2 < obstacle[0] and obstacle[0] < 0.5 and abs(obstacle[1]>0.2):
+                            choice += obstacle[1]
+                    if choice >= 0 :
+                        direction = 2
+                    else :
+                        direction = 1
+                    timer = 20
 
 
-#taille
-taille_x = 0.2
-taille_y = 0.1
+# main_prog() contains the main structure of the program : 
+# callbacks from laser scans and a regular publishing to move the robot
 
-rospy.init_node('move', anonymous=True)
+pub = rospy.Publisher('cmd_vel_mux/input/navi', Twist, queue_size=10)
+rospy.init_node('challenge1', anonymous=True)
+rospy.Subscriber("scan", LaserScan, callback)
+rospy.Timer(rospy.Duration(0.1), move)
 
-# connect to the topic:
-rospy.Subscriber('scan', LaserScan, interpret_scan)
-
-# call the aire_evoluer_robot at a regular frequency:
-rospy.Timer( rospy.Duration(0.4), faire_evoluer_robot, oneshot=False )
-#spin() enter the program in a infinite loop
-print("Lancement de challenge1.py")
 rospy.spin()
-print("Fin")
+
