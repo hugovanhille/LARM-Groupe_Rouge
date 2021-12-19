@@ -12,14 +12,16 @@ commandPublisher = rospy.Publisher(
 obstacles= []
 
 # Publish velocity commandes:
-def move_command_linear(data):
+def move_front(data):
     cmd= Twist()
-    cmd.linear.x= 0.1
+    cmd.linear.x= 2
     commandPublisher.publish(cmd)
+
 
 def move_command_angular(data):
     cmd= Twist()
-    cmd.angular.z= 0.4
+    cmd.angular.z= 1
+    #cmd.linear.x= -0.2
     commandPublisher.publish(cmd) 
 
 # Publish velocity commandes:
@@ -52,7 +54,7 @@ def faire_evoluer_robot(data):
                 t=1
                 
     if t == 0:
-        move_command_linear(data)
+        move_front(data)
     else:
         move_command_angular(data)
         
@@ -68,7 +70,7 @@ rospy.init_node('move', anonymous=True)
 rospy.Subscriber('scan', LaserScan, interpret_scan)
 
 # call the aire_evoluer_robot at a regular frequency:
-rospy.Timer( rospy.Duration(0.1), faire_evoluer_robot, oneshot=False )
+rospy.Timer( rospy.Duration(0.4), faire_evoluer_robot, oneshot=False )
 #spin() enter the program in a infinite loop
 print("Lancement de challenge1.py")
 rospy.spin()
