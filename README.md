@@ -1,5 +1,10 @@
-Branche Challenge1: objectif déplacer le robot et éviter les obstacles
+Voici la branche Challenge2 du groupe Rouge:
 
-Cette branche contient ce fichier README ainsi que le package grp-rouge.
-Dans ce package il y a le scrypt qui contient le code python, le dossier launch qui permet de lançer directement les simulations correspondantes 
-et enfin le dossier include qui permet de lançer rvziz 
+Notre objectif était de trouver des bouteilles Nuka Cherry dans l'espace de jeu et de les marquer dans la carte
+
+
+Cette branche contient ce fichier README ainsi que le package grp-rouge
+A l'intérieur il y a les scripts python ...
+
+De plus il y a les 2 fichiers launch NAME qui permettent de lancer respectivement la simulation et le robot en réel
+Finalement,le dossier "rviz" qui permet de lançer rviz dans les bonnes configurations 
