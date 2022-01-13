@@ -1,0 +1,26 @@
+<annotation>
+	<folder>positive_images</folder>
+	<filename>270284289_920808552142383_4589962822976769690_n.jpg</filename>
+	<path>/home/hugo/catkin_ws/src/LARM-Groupe_Rouge/vision/opencv-haar-classifier-training/positive_images/270284289_920808552142383_4589962822976769690_n.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>540</width>
+		<height>960</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>bottle</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>144</xmin>
+			<ymin>14</ymin>
+			<xmax>474</xmax>
+			<ymax>723</ymax>
+		</bndbox>
+	</object>
+</annotation>
