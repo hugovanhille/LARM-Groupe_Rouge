@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import rospy
 import cv2
 import numpy as np
@@ -5,6 +6,7 @@ from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import math
+#from ramdom import *
 
 bridge = CvBridge()
  
@@ -17,6 +19,8 @@ def interpret_image(data):
     cv2.namedWindow('Camera')
     frame=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     cv2.imshow('Camera',frame )
+    #name=str(randint(1,100))+'.jpg'
+    #cv2.imwrite(name,frame)
     cv2.waitKey(40)
     cmd=PoseStamped()
 
@@ -88,9 +92,9 @@ def detection():
         PoseStamped, queue_size=10
     )
     rospy.loginfo(rospy.get_caller_id() + 'I heard ')
-
-    lo=np.array([100, 125, 200])
-    hi=np.array([150, 255,255])
+	
+    lo=np.array([10, 115, 125])
+    hi=np.array([15, 255,255])
     rate=rospy.Rate(10)
     color_info=(0, 0, 255)
     rospy.Subscriber('camera/color/image_raw', Image, interpret_image)

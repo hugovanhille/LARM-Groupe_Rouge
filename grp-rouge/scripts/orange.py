@@ -27,8 +27,8 @@ def souris(event, x, y, flags, param):
 
 color=10
 
-lo=np.array([color-6, 115, 125])
-hi=np.array([color+4, 255,255])
+lo=np.array([color-5, 100, 200])
+hi=np.array([color+5, 255,255])
 
 color_info=(0, 0, 255)
 
@@ -55,7 +55,7 @@ while True:
     image=cv2.blur(image, (7, 7))
     mask=cv2.erode(mask, None, iterations=1)
     mask=cv2.dilate(mask, None, iterations=1)
-    
+               
 
     elements=cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
     if len(elements) > 0:
