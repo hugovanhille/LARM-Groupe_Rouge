@@ -19,6 +19,9 @@ Cette branche contient ce fichier README ainsi que le package grp-rouge
 Notre stratégie de vision se base sur un réseau de neurones en deep learning entrainé à partir d'une centaines d'images de bouteilles oranges et noires sur un réseau préentrainé de YOLO. 
 Ce réseau de neurones fonctionne parfaitement lors des test ou on lui donne un jeu d'images à analyser
 
+
+![Test](test.png)                                             ![Test](test2.png)                                  ![Test](test3.png)  
+
 Dans le répertoire scripts, on retrouve  2 fichiers python.
 - Le fichier [detectbottle.py](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge2/grp-rouge/scripts/detectbottle.py) permet d'analyser les images obtenu par la caméra pour détecter des bouteilles. Nous avons choisis d'analyser une image toute les 1,5s afin de ne pas surcharger l'éxecution.
  Une fois une bouteille détecté, on récupère sa position grace à la caméra 3D, et on envoie l'information sur un topic qui sera récupére par le fichier python suivant.
