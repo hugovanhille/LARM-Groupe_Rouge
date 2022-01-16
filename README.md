@@ -1,13 +1,31 @@
-Voici la branche Challenge2 du groupe Rouge:
+#Challenge 2
+
+Voici la branche Challenge2 du groupe Rouge
+
+##Pré-Requis
+
+L'exécution de notre code nécessite l'utilisation d'un fichier .weights contenant les résultats de l'aprentissage de notre réseau de neurones. 
+Celui-ci dépassant la taille maximale autorisée, il faut le télécharger sous le lien suivant : https://drive.google.com/file/d/1k9ex3AmuKGmZoxvqDPVgwVyrhr3TGt6z/view?usp=sharing
+Ce fichier est à placer dans grp-rouge/vision/
+
+De plus, dans le fichier detectbottle contient deux paramètre contenant des chemins locaux à définir. Merci de modifier ces deux chemins présents ligne 17 du fichier detectbottle (remplacer /home/altreon par /home/username/)
+
+##Composition
 
 Notre objectif était de trouver des bouteilles Nuka Cherry dans l'espace de jeu et de les marquer dans la carte
 
 Cette branche contient ce fichier README ainsi que le package grp-rouge
 
 Notre stratégie de vision se base sur un réseau de neurones en deep learning entrainé à partir d'une centaines d'images de bouteilles oranges et noires sur un réseau préentrainé de YOLO. 
+Ce réseau de neurones fonctionne parfaitement lors des test ou on lui donne u jeu d'images à analyser
 
-A l'intérieur il y a les scripts python permettant la gestion des inforations recus par la caméra et l'affichage des bouteilles sur Rviz en fonctions des objets détectés.
+Dans le répertoire scripts, on retrouve  2 fichiers python.
+-Le fichier detectbottle permet d'analyser les images obtenu par la caméra pour détecter des bouteilles. Nous avons choisis d'analyser une image toute les 1,5s afin de ne pas surcharger l'éxecution.
+ Une fois une bouteille détecté, on récupère sa position grace à la caméra 3D, et on envoie l'information sur un topic qui sera récupére par le fichier python suivant.
+-Le deuxième (markbottle) s'occupe d'afficher les marqueurs des bouteilles sur Rviz.
 
-De plus il y a les 2 fichiers launch NAME qui permettent de lancer respectivement la simulation et le robot en réel
+Dans le répertoire launch il y a les 2 fichiers launch NAME qui permettent de lancer respectivement la simulation du robot et le robot en réel.
 
-Finalement,le dossier "rviz"  permet de lançer rviz dans les bonnes configurations 
+Ensuite, le répertoire vision contient l'ensemble des fichiers utiles au bon fonctionnement de notre réseau de neurones (résultats de l'apprentissages et autres informations indispensables à son exécution).
+
+Finalement,le dossier "rviz"  permet de lançer rviz dans les bonnes configurations.
