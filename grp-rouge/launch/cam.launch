@@ -1,8 +1,0 @@
-<launch>
-    <include file="$(find realsense2_camera)/launch/rs_aligned_depth.launch"/>
-    <node pkg="rviz" type="rviz" name="rviz" />
-    <node pkg="grp-rouge" type="cam.py" name="vis"/>
-    <node pkg="tf" type="static_transform_publisher" name="base_camera_in_map" args="0.0 1.0 0.00 0.0 0.0 0.0 /camera /map 80" />
- 
-
-</launch>
