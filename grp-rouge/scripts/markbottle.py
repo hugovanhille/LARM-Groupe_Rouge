@@ -7,7 +7,7 @@ from visualization_msgs.msg import Marker
 from geometry_msgs.msg import PoseStamped
 
 
-tfListener = tf.TransformListener()
+
 
 
 SAME_BOTTLE_RADIUS = 0.35         # Distance sous laquelle on considère que c'est la même bouteille qui a été détectée
@@ -26,8 +26,7 @@ def compute_dist_between_two_markers(marker1, marker2):
 
 def callback(data):
 
-    # Transformation des coordonnées de la frame "camera_color_optical_frame" vers la frame "odom"
-    convert_coords = tfListener.transformPose("/odom", data)
+    new_coor = tfListener.transformPose("/odom", data)
 
     # On crée un marker
     marker = Marker()
@@ -39,15 +38,15 @@ def callback(data):
     marker.scale.y = 0.1
     marker.scale.z = 0.1
     marker.color.a = 1.0
-    marker.color.r = 0.0
-    marker.color.g = 1.0
+    marker.color.r = 1.0
+    marker.color.g = 0.0
     marker.color.b = 0.0
     marker.pose.orientation.w = 1.0
 
     # On lui donne les coordonnées de la bouteille dans la frame "odom"
-    marker.pose.position.x = convert_coords.pose.position.x
-    marker.pose.position.y = convert_coords.pose.position.y
-    marker.pose.position.z = convert_coords.pose.position.z
+    marker.pose.position.x = new_coor.pose.position.x
+    marker.pose.position.y = new_coor.pose.position.y
+    marker.pose.position.z = new_coor.pose.position.z
 
     
     # Le premier marker est toujours placé
@@ -79,14 +78,12 @@ def callback(data):
 
 
 def main():
-    global pub
-    pub = rospy.Publisher('/bottle', Marker, queue_size=10)
+    global pub,tfListener
     rospy.init_node('marker')
+    pub = rospy.Publisher('/bottle', Marker, queue_size=10)
+    tfListener = tf.TransformListener()
     rospy.Subscriber("/data_bottle", PoseStamped, callback)
     rospy.spin()
-
-# spin() enter the program in a infinite loop
-
 
 if __name__ == '__main__':
     main()
