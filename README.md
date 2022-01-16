@@ -24,7 +24,11 @@ Dans le répertoire scripts, on retrouve  2 fichiers python.
  Une fois une bouteille détecté, on récupère sa position grace à la caméra 3D, et on envoie l'information sur un topic qui sera récupére par le fichier python suivant.
 - Le deuxième ([markbottle.py](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge2/grp-rouge/scripts/markbottle.py)) s'occupe d'afficher les marqueurs des bouteilles sur Rviz.
 
-Dans le répertoire launch il y a les 2 fichiers launch NAME qui permettent de lancer respectivement la simulation du robot et le robot en réel.
+Dans le répertoire launch il y a le fichier launch NAME qui permet de lancer la simulation du robot
+Lacommande à éxecuter est la suivante :
+```bash 
+roslaunch grp-rouge challenge2.launch 
+```
 
 Ensuite, le répertoire vision contient l'ensemble des fichiers utiles au bon fonctionnement de notre réseau de neurones (résultats de l'apprentissages et autres informations indispensables à son exécution).
 
