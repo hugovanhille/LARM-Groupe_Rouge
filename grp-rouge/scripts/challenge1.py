@@ -20,7 +20,7 @@ def move(data):
         move.linear.x = 0.0
         move.angular.z = 0.6
     else :                              #Avancer le robot
-        move.linear.x = 0.5
+        move.linear.x = 1
         move.angular.z = 0.0
 
     pub.publish(move)
@@ -35,8 +35,9 @@ def callback(data):
 
     liste_obstacles = []                
     min= data.angle_min
+    print ("angle min=________________"+str(min))
     for dist in data.ranges :                  #Boucles permettant de référencer tous les obstacles à proximité du robot
-        if 0.2 < dist and dist < 0.6 :
+        if 0.05 < dist and dist < 0.6 :
             aPoint= [ 
                 math.cos(min) * dist,               #Calcul des coordonées de l'obstacle
                 math.sin(min) * dist
@@ -65,7 +66,7 @@ def callback(data):
 pub = rospy.Publisher('cmd_vel_mux/input/navi', Twist, queue_size=10)
 rospy.init_node('challenge1', anonymous=True)
 rospy.Subscriber("scan", LaserScan, callback)
-rospy.Timer(rospy.Duration(0.1), move)
+rospy.Timer(rospy.Duration(0.05), move)
 
 rospy.spin()
 
