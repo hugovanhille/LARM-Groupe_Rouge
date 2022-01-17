@@ -1,0 +1,5 @@
+<launch>
+	<include file="$(find larm)/launch/challenge-1.launch" />
+	<node pkg="grp-rouge" name="challenge1" type="challenge1.py"/>
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find grp-rouge)/rviz/  challenge1_simulation.rviz"/>
+</launch>

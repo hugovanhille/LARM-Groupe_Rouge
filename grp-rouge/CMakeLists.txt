@@ -163,6 +163,7 @@ include_directories(
 catkin_install_python(PROGRAMS
    scripts/detectbottle.py
    scripts/markbottle.py
+   scripts/challenge1.py
 
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )

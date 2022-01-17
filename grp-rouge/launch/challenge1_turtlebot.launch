@@ -1,0 +1,7 @@
+<launch>
+
+	<include file="$(find turtlebot_bringuo)/launch/minimal.launch"/>
+	<node pkg="urg_node" type="urg_node" name="laser" />
+	<node pkg="grp-rouge" type="challenge1.py" name="robot" />
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find grp-rouge)/rviz/challenge1_turtlebot.rviz"/>
+<\launch>
