@@ -1,6 +1,6 @@
-# _Challenge 2_
+# _Challenge 3_
 
-Voici la branche Challenge2 du groupe Rouge
+Voici la branche Challenge3 du groupe Rouge
 
 ## _Pré-Requis_
 
@@ -12,7 +12,7 @@ De plus,  le fichier [detectbottle.py](https://github.com/hugovanhille/LARM-Grou
 
 ## _Composition_
 
-Notre objectif était de trouver des bouteilles Nuka Cherry dans l'espace de jeu et de les marquer dans la carte
+L'objectif de ce denier challenge est pour notre Turtlebot de se déplacer de façn autonome dans l'espace tout en évitant les obtacles. A çela s'ajoute sa mission de détecter les bouteilles présentes sur la map pour ensuite construire la map sur Rviz et d'y indiquer les bouteilles présentes avec des marqueurs.
 
 Cette branche contient ce fichier README ainsi que le package grp-rouge
 
