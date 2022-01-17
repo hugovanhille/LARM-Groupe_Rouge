@@ -14,10 +14,10 @@ def move(data):
     move = Twist()
 
     if direction == 2 :                 #Tourner le robot dans le sens horaire
-        move.linear.x = 0.0
+        move.linear.x = -0.1
         move.angular.z = -0.6
     elif direction == 1 :               #Tourner le robot dans le sens antihoraire
-        move.linear.x = 0.0
+        move.linear.x = -0.1
         move.angular.z = 0.6
     else :                              #Avancer le robot
         move.linear.x = 1
@@ -35,12 +35,19 @@ def callback(data):
 
     liste_obstacles = []                
     min= data.angle_min
-    print ("angle min=________________"+str(min))
     for dist in data.ranges :                  #Boucles permettant de référencer tous les obstacles à proximité du robot
         if 0.05 < dist and dist < 0.6 :
+            if (min<=90):
+                angle=90-min
+            elif (min<=180):
+                angle=180-min
+            elif (min<=270):
+                angle-=180
+            else :
+                angle-=270
             aPoint= [ 
-                math.cos(min) * dist,               #Calcul des coordonées de l'obstacle
-                math.sin(min) * dist
+                    math.cos(angle) * dist,               #Calcul des coordonées de l'obstacle
+                    math.sin(angle) * dist
             ]
             liste_obstacles.append(aPoint)          #Ajout de l'obstacle dans la liste
         min+= data.angle_increment
@@ -50,12 +57,9 @@ def callback(data):
 
         direction = 0
         for obstacle in liste_obstacles :                                           #Pour chaque obstacle
-            if 0.2 < obstacle[0] and obstacle[0] < 0.6 and abs(obstacle[1]>0.3):            #on regarde s'il est situé sur le chemin de notre robot
+            if -0.2 < obstacle[0] and obstacle[0] < 0.2 and abs(obstacle[1]>0.4):            #on regarde s'il est situé sur le chemin de notre robot
                     choice = 0
-                    for obstacle in liste_obstacles :
-                        if 0.2 < obstacle[0] and obstacle[0] < 0.5 and abs(obstacle[1]>0.2):    #Si oui on définit la direction qui est la meilleur:
-                            choice += obstacle[1]
-                    if choice >= 0 :
+                    if data.ranges[10] > data.ranges[350]  :
                         direction = 2
                     else :
                         direction = 1
