@@ -17,7 +17,7 @@ def move(data):
         move.linear.x = 0.0
         move.angular.z = -0.6
     elif direction == 1 :               #Tourner le robot dans le sens antihoraire
-        move.linear.x = -0.1
+        move.linear.x = 0.0
         move.angular.z = 0.6
     else :                              #Avancer le robot
         move.linear.x = 0.25
