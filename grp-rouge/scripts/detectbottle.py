@@ -14,7 +14,7 @@ import math
 def data_interpreter(data):
 
     # Load Yolo
-    net = cv2.dnn.readNet("/home/altreon/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_training_last.weights", "/home/altreon/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_testing.cfg")
+    net = cv2.dnn.readNet("/home/grp-rouge/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_training_last.weights", "/home/grp-rouge/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_testing.cfg")
     # Name custom object
     classes = ["Bottle"]
     layer_names = net.getLayerNames()
@@ -104,7 +104,7 @@ def main():
     rospy.init_node('camera', anonymous=True)
     pub = rospy.Publisher('/data_bottle',PoseStamped, queue_size=10)
     rospy.loginfo(rospy.get_caller_id() + 'I heard ')
-    rospy.Subscriber('camera/color/image_raw', Image, data_interpreter)
+    rospy.Subscriber('/camera/color/image_raw', Image, data_interpreter)
     rospy.Subscriber("/camera/aligned_depth_to_color/image_raw", Image , calcul_dist)
     rospy.spin()
     cv2.destroyAllWindows()
