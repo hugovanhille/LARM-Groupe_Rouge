@@ -64,6 +64,9 @@ def data_interpreter(data):
                 coorFin=calcul_coord(coorx,profondeur)
                 stamped=PoseStamped_create(int(coorFin[0]),int(coorFin[1]))
                 pub.publish(stamped)
+                pose=pose_init[0]
+                pub2.publish(pose)
+    del pose_init(0)
     
 
 
@@ -99,15 +102,15 @@ def calcul_coord(x,pro):
 
 def get_pose(data):
     pose_init.append((data))
-
     return 0
 
 def main():
-    global pub,bridge,tfListener,pose_init
+    global pub,pub2,bridge,tfListener,pose_init
     pose_init=[]
     bridge = CvBridge()
     rospy.init_node('camera', anonymous=True)
     pub = rospy.Publisher('/data_bottle',PoseStamped, queue_size=10)
+    pub2 = rospy.Publisher('/pose_robot',PoseStamped, queue_size=10)
     rospy.loginfo(rospy.get_caller_id() + 'I heard ')
     rospy.Subscriber('/odom', Odometry, get_pose)
     rospy.Subscriber('/camera/color/image_raw', Image, data_interpreter)
