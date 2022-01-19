@@ -14,9 +14,9 @@ def dist_bottle(marker1, marker2):
     return dist
 
 
-def callback(data):
-
-    new_coor = tfListener.transformPose("/pose_robot", data)
+def callback(pose):
+    marker = Marker()
+    new_coor = tfListener.transformPose("/odom", pose)
     marker.header.frame_id = "odom"
     marker.id = len(marker_array)
     marker.type = marker.CUBE
@@ -60,8 +60,8 @@ def callback(data):
 
 
 def main():
-    global pub,tfListener,marker_array,dist__meme_bouteille,dist_entre_bottle, marker
-    marker = Marker()
+    global pub,tfListener,marker_array,dist__meme_bouteille,dist_entre_bottle
+
     rospy.init_node('marker')
     pub = rospy.Publisher('/bottle', Marker, queue_size=10)
     tfListener = tf.TransformListener()
