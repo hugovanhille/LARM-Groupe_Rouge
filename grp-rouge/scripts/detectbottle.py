@@ -6,8 +6,9 @@ import numpy as np
 from geometry_msgs.msg import PoseStamped
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from nav_msgs.msg import Odometry
 import math
-
+import tf
 
 
  
@@ -17,6 +18,8 @@ def data_interpreter(data):
     net = cv2.dnn.readNet("/home/altreon/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_training_last.weights", "/home/altreon/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_testing.cfg")
     # Name custom object
     classes = ["Bottle"]
+    global time
+    time=rospy.Time.now()
     layer_names = net.getLayerNames()
     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
     temp_frame=data
@@ -40,7 +43,7 @@ def data_interpreter(data):
             scores = main[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > 0.3:
+            if confidence > 0.5:
                 # Object detected
                 print(class_id)
                 center_x = int(main[0] * width)
@@ -61,14 +64,15 @@ def data_interpreter(data):
                 profondeur=distance[int(y)][int(x)]
                 coorx=center_x
                 coorFin=calcul_coord(coorx,profondeur)
-                stamped=PoseStamped_create(int(coorFin[0]),int(coorFin[1]))
+                stamped=PoseStamped_create(int(coorFin[0]),int(coorFin[1]),time)
                 pub.publish(stamped)
+
     
 
 
-def PoseStamped_create(x,y):
+def PoseStamped_create(x,y,time):
     stamped=PoseStamped()
-    stamped.header.stamp= rospy.Time()
+    stamped.header.stamp= time #rospy.Time()
     stamped.header.frame_id='camera_link'
     stamped.pose.position.x=x/1000
     stamped.pose.position.x+=0.15
@@ -97,17 +101,18 @@ def calcul_coord(x,pro):
     return [math.cos(angle) * pro, math.sin( angle ) * pro-35] 
 
 
-
 def main():
-    global pub,bridge
+    global pub,pub2,bridge
     bridge = CvBridge()
     rospy.init_node('camera', anonymous=True)
     pub = rospy.Publisher('/data_bottle',PoseStamped, queue_size=10)
+    pub2 = rospy.Publisher('/pose_robot',PoseStamped, queue_size=10)
     rospy.loginfo(rospy.get_caller_id() + 'I heard ')
-    rospy.Subscriber('camera/color/image_raw', Image, data_interpreter)
+    rospy.Subscriber('/camera/color/image_raw', Image, data_interpreter)
     rospy.Subscriber("/camera/aligned_depth_to_color/image_raw", Image , calcul_dist)
     rospy.spin()
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    rospy.Timer(rospy.Duration(1.5),main(),oneshot=False)
+    rospy.Timer(rospy.Duration(1),main(),oneshot=False)
+
