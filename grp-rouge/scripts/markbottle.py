@@ -69,7 +69,7 @@ def main():
     tfListener = tf.TransformListener()
     marker_array = []
     dist__meme_bouteille = 0.7    
-    dist_entre_bottle = 0.40
+    dist_entre_bottle = 1.50
     rospy.Subscriber("/data_bottle", PoseStamped, callback)
     rospy.spin()
 

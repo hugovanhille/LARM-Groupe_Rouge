@@ -40,7 +40,7 @@ def data_interpreter(data):
             scores = main[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > 0.3:
+            if confidence > 0.9:
                 # Object detected
                 print(class_id)
                 center_x = int(main[0] * width)
@@ -110,4 +110,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    rospy.Timer(rospy.Duration(1.5),main(),oneshot=False)
+    rospy.Timer(rospy.Duration(1),main(),oneshot=False)

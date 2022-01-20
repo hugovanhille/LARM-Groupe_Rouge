@@ -15,10 +15,10 @@ def move(data):
 
     if direction == 2 :                 #Tourner le robot dans le sens horaire
         move.linear.x = 0.0
-        move.angular.z = -0.6
+        move.angular.z = -0.5
     elif direction == 1 :               #Tourner le robot dans le sens antihoraire
         move.linear.x = 0.0
-        move.angular.z = 0.6
+        move.angular.z = 0.5
     else :                              #Avancer le robot
         move.linear.x = 0.25
         move.angular.z = 0.0
@@ -59,7 +59,7 @@ def callback(data):
         for obstacle in liste_obstacles :                                           #Pour chaque obstacle
             if -0.3 < obstacle[0] and obstacle[0] < 0.3 and abs(obstacle[1]>0.1):            #on regarde s'il est situé sur le chemin de notre robot
                     choice = 0
-                    if data.ranges[10] > data.ranges[350]  :
+                    if data.ranges[10] >= data.ranges[350]  :
                         direction = 2
                     else :
                         direction = 1
