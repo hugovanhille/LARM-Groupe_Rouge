@@ -16,7 +16,7 @@ L'objectif de ce denier challenge est pour notre Turtlebot de se déplacer de fa
 
 Cette branche contient ce fichier README ainsi que le package grp-rouge
 
-Notre stratégie de [vision](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/vision/) se base sur un réseau de neurones en deep learning entrainé à partir d'une centaines d'images de bouteilles oranges et noires sur un réseau préentrainé de _YOLO_. 
+Notre stratégie de vision se base sur un réseau de neurones en deep learning entrainé à partir d'une centaines d'images de bouteilles oranges et noires sur un réseau préentrainé de _YOLO_. 
 Ce réseau de neurones fonctionne parfaitement lors des test ou on lui donne un jeu d'images à analyser
 
 
@@ -31,12 +31,19 @@ Dans le répertoire [scripts](https://github.com/hugovanhille/LARM-Groupe_Rouge/
 Dans le répertoire [launch](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/launch/) il y a deux fichiers launch NAME qui permettent de lancer la simulation du robot et le turtlebot réel
 Les commandes à éxecuter sont les suivantes :
 ```bash 
-roslaunch grp-rouge challenge_tbot.launch 
+roslaunch grp-rouge challenge3_tbot.launch 
 ```
 ```bash 
-roslaunch grp-rouge challenge_simulation.launch 
+roslaunch grp-rouge challenge3_simulation.launch 
 ```
 
-Ensuite, le répertoire vision contient l'ensemble des fichiers utiles au bon fonctionnement de notre réseau de neurones (résultats de l'apprentissages et autres informations indispensables à son exécution).
+Ensuite, le répertoire [vision](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/vision/) contient l'ensemble des fichiers utiles au bon fonctionnement de notre réseau de neurones (résultats de l'apprentissages et autres informations indispensables à son exécution).
 
-Finalement, le dossier rviz  permet de lançer rviz dans les bonnes configurations.
+Finalement, le dossier [rviz](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/rviz/)  permet de lançer rviz dans les bonnes configurations.
+
+## _Auteurs_
+
+Ce projet a été mené par :
+
+* **Hugo Vanhille** _alias_ [@hugovanhille](https://github.com/hugovanhille)
+* **Maxence Vandendorpe** _alias_ [@altreon100](https://github.com/altreon100)
