@@ -8,7 +8,7 @@ L'exécution de notre code nécessite l'utilisation d'un fichier .weights conten
 Celui-ci dépassant la taille maximale autorisée, il faut le télécharger sous le lien suivant : https://drive.google.com/file/d/1k9ex3AmuKGmZoxvqDPVgwVyrhr3TGt6z/view?usp=sharing
 Ce fichier est à placer dans [grp-rouge/vision/](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/vision/)
 
-De plus,  le fichier [detectbottle.py](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/scripts/detectbottle.py) contient deux paramètre associés à des chemins locaux à définir. Merci de modifier ces deux chemins présents ligne 17 du fichier detectbottle (remplacer ``/home/hugo`` par ``/home/username/``)
+De plus,  le fichier [detectbottle.py](https://github.com/hugovanhille/LARM-Groupe_Rouge/blob/challenge3/grp-rouge/scripts/detectbottle.py) contient deux paramètre associés à des chemins locaux à définir. Merci de modifier ces deux chemins présents ligne 19 du fichier detectbottle (remplacer ``/home/hugo`` par ``/home/username/``)
 
 ## _Composition_
 
