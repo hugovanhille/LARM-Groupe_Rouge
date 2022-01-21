@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+
+##Importation 
+
 from turtle import color
 import rospy
 import cv2
@@ -10,13 +13,11 @@ from nav_msgs.msg import Odometry
 import math
 import tf
 
-
- 
 def data_interpreter(data):
 
-    # Load Yolo
+    # Lancement de Yolo
     net = cv2.dnn.readNet("/home/hugo/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_training_last.weights", "/home/hugo/catkin_ws/src/LARM-Groupe_Rouge/grp-rouge/vision/yolov3_testing.cfg")
-    # Name custom object
+    # Création de la classe bottle et récupération du temps pour le PoseStamped
     classes = ["Bottle"]
     global time
     time=rospy.Time.now()
@@ -28,13 +29,12 @@ def data_interpreter(data):
     frame = bridge.imgmsg_to_cv2(temp_frame, desired_encoding='passthrough')
     stamped=PoseStamped()
 
-    # Detecting objects
+    # Detection d'objet
     blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
     net.setInput(blob)
     outs = net.forward(output_layers)
 
-    # Showing informations on the screen
-    height,width,channels=frame.shape
+    height,width=frame.shape
     class_ids = []
     confidences = []
     boxes = []
@@ -43,10 +43,10 @@ def data_interpreter(data):
             scores = main[5:]
             class_id = np.argmax(scores)
             confidence = scores[class_id]
-            if confidence > 0.9:
-                # Object detected
+            if confidence > 0.9:  # Indice de confidence de la détection d'une bouteille (de 0 à 1)
+                # Object detecté
                 print(class_id)
-                center_x = int(main[0] * width)
+                center_x = int(main[0] * width)    #Calcul du centre de la bouteille
                 center_y = int(main[1] * height)
                 print("le centre est"+ str(center_x)+"," +str(center_y))
                 w = int(main[2] * width)
@@ -54,25 +54,24 @@ def data_interpreter(data):
                 h = int(main[3] * height)
                 print("h"+str(h))
                 # Rectangle coordinates
-                x = int(center_x - w / 2)
+                x = int(center_x - w / 2)    # Calcul du centre du rectangle dessiné autour de la bouteille
                 y = int(center_y - h / 2)
                 str("x"+str(x))
                 str("y"+str(y))
-                boxes.append([x, y, w, h])
-                confidences.append(float(confidence))
-                class_ids.append(class_id)
+               # boxes.append([x, y, w, h])
+               # confidences.append(float(confidence))
+               # class_ids.append(class_id)
                 profondeur=distance[int(y)][int(x)]
                 coorx=center_x
-                coorFin=calcul_coord(coorx,profondeur)
-                stamped=PoseStamped_create(int(coorFin[0]),int(coorFin[1]),time)
+                coorFin=calcul_coord(coorx,profondeur)   # Coordonnées de la bouteille par rapport au robot
+                stamped=PoseStamped_create(int(coorFin[0]),int(coorFin[1]),time)  #Initialisation et publication du PoseStamped 
                 pub.publish(stamped)
-                pose=pose_init[0]
     
 
 
-def PoseStamped_create(x,y,time):
+def PoseStamped_create(x,y,time): #creation du PoseStamped et initialisation
     stamped=PoseStamped()
-    stamped.header.stamp= time #rospy.Time()
+    stamped.header.stamp= time 
     stamped.header.frame_id='camera_link'
     stamped.pose.position.x=x/1000
     stamped.pose.position.x+=0.15
@@ -90,29 +89,28 @@ def PoseStamped_create(x,y,time):
 
 
 
-def calcul_dist(data):
+def calcul_dist(data):   #calcul de la distance entre le robot et la bouteille basé sur la frame
     global distance
     distance=np.array(bridge.imgmsg_to_cv2(data,desired_encoding="passthrough"))
 
 
-def calcul_coord(x,pro):
+def calcul_coord(x,pro):   #calcul des coordonnées de la bouteille
     angle=43.55*(x-640)/640
     angle=angle*math.pi/180 # passage en radians
     return [math.cos(angle) * pro, math.sin( angle ) * pro-35] 
 
 
-def main():
-    global pub,pub2,bridge,tfListener,pose_init
+def main():   # initialisation des variables et définition des Subscriber et publisher
+    global pub,bridge,pose_init
     pose_init=[]
     bridge = CvBridge()
     rospy.init_node('camera', anonymous=True)
     pub = rospy.Publisher('/data_bottle',PoseStamped, queue_size=10)
-    pub2 = rospy.Publisher('/pose_robot',PoseStamped, queue_size=10)
     rospy.loginfo(rospy.get_caller_id() + 'I heard ')
     rospy.Subscriber('/camera/color/image_raw', Image, data_interpreter)
     rospy.Subscriber("/camera/aligned_depth_to_color/image_raw", Image , calcul_dist)
     rospy.spin()
     cv2.destroyAllWindows()
 
-if __name__ == '__main__':
+if __name__ == '__main__': #Boucle toute les 1s sur la fonction main
     rospy.Timer(rospy.Duration(1),main(),oneshot=False)
