@@ -1,4 +1,0 @@
-<launch>
-	<include file="$(find larm)/launch/challenge-1.launch" />
-	<node pkg="grp-rouge" name="challenge1" type="challenge1.py"/>
-</launch>
