@@ -89,12 +89,12 @@ def PoseStamped_create(x,y,time): #creation du PoseStamped et initialisation
 
 
 
-def calcul_dist(data):   #calcul de la distance entre le robot et la bouteille basé sur la frame
+def calcul_dist(data):   #calcul de la distance entre le robot et la bouteille basé sur la frame (grace à la caméra 3D)
     global distance
     distance=np.array(bridge.imgmsg_to_cv2(data,desired_encoding="passthrough"))
 
 
-def calcul_coord(x,pro):   #calcul des coordonnées de la bouteille
+def calcul_coord(x,pro):   #calcul des coordonnées de la bouteille par rapport au robot
     angle=43.55*(x-640)/640
     angle=angle*math.pi/180 # passage en radians
     return [math.cos(angle) * pro, math.sin( angle ) * pro-35] 
