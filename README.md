@@ -1,6 +1,8 @@
 # _Challenge 3_
 
-Voici la branche Challenge3 du groupe Rouge
+Voici la branche Challenge3 du groupe Rouge 
+
+Vous trouverez le lien vers la vidéo de présentation ici : https://drive.google.com/file/d/1m3JUHNiF6_7otLII-nP1k33jdP2FB18b/view?usp=sharing
 
 ## _Pré-Requis_
 
